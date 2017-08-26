@@ -15,6 +15,10 @@
 -- * Tables referenced more than once in the tree will be serialized separately
 --   each time, and will result in references to different tables.
 --
+-- If a table has a `__minser` metamethod, the method is called passing it the
+-- table itself and a table to cache seen sub-tables. The method should use the
+-- `repr` function for sub fields, passing it the "seen" table.
+--
 -- The serialized output is a chunk of Lua code yielding comparable values.
 --
 -- The module does its best to generate the most compact code possible.
@@ -122,6 +126,13 @@ function reprtable(t, seen)
 	end
 	seen[t] = true
 
+	local mt = getmetatable(t)
+	if mt and mt.__minser then
+		local ok, err = mt.__minser(t, seen)
+		seen[t] = nil
+		return ok, err
+	end
+
 	local out, nc = { }, false
 
 	-- Serialize array part if possible.
@@ -166,6 +177,7 @@ end
 -- Serialize values.
 --
 -- @tparam string|number|boolean|table ...
+--  Values to serialize.
 -- @treturn string
 --  Serialized data on success, nil on error.
 -- @treturn ?string
@@ -183,21 +195,39 @@ function minser.dump(...)
 end
 
 ---
+-- Serialize a single value.
+--
+-- @tparam string|number|boolean|table val
+--  Value to serialize.
+-- @tparam ?table seen
+--  Cache of seen tables.
+-- @treturn string
+--  Serialized data on success, nil on error.
+-- @treturn ?string
+--  Error message.
+function minser.repr(val, seen)
+	return reprval(val, seen or { })
+end
+
+---
 -- Load serialized data.
 --
--- @tparam string data Serialized data.
+-- @tparam string data
+--  Serialized data.
+-- @tparam table env
+--  Environment for loaded chunk.
 -- @treturn number|nil
 --  Number of returned values on success, nil on error.
 -- @treturn any|string
 --  First value on success, error message on error.
 -- @treturn any
 --  Extra values are returned as extra results.
-function minser.load(data)
+function minser.load(data, env)
 	local func, err = loadstring("return "..data)
 	if not func then
 		return nil, err
 	end
-	setfenv(func, { })
+	setfenv(func, env or { })
 	-- Avoid triggering "strict" modules.
 	local debug = rawget(_G, "debug")
 	local jit = rawget(_G, "jit")
