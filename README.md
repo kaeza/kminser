@@ -20,4 +20,14 @@ See `LICENSE.md` for details.
 
 * [Lua][lua] 5.1 or above.
 
+## Links
+
+* Download development version: [`.zip`][devzip], [`.tar.gz`][devtgz].
+* [Repository][repo] at Github.
+* [API documentation][apidocs].
+
 [lua]: http://lua.org
+[devzip]: https://github.com/kaeza/lua-minser/archive/master.zip
+[devtgz]: https://github.com/kaeza/lua-minser/archive/master.tar.gz
+[repo]: https://github.com/kaeza/lua-minser
+[apidocs]: https://kaeza.github.io/luadocs/minser/
