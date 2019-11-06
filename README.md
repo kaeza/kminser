@@ -1,8 +1,8 @@
 
-# lua-minser – Data serialization with minification.
+# KMinSer – Data serialization with minification.
 
-This module contains functions to serialize values to strings, and
-deserialize these strings back to values. It is able to serialize
+This is a [Lua][lua] module that contains functions to serialize values to
+strings, and deserialize these strings back to values. It is able to serialize
 strings, numbers, booleans, nil values, and tables.
 
 The serialized output is a chunk of Lua code yielding comparable values.
@@ -24,10 +24,8 @@ See `LICENSE.md` for details.
 
 * Download development version: [`.zip`][devzip], [`.tar.gz`][devtgz].
 * [Repository][repo] at Github.
-* [API documentation][apidocs].
 
 [lua]: http://lua.org
-[devzip]: https://github.com/kaeza/lua-minser/archive/master.zip
-[devtgz]: https://github.com/kaeza/lua-minser/archive/master.tar.gz
+[devzip]: https://github.com/kaeza/kminser/archive/master.zip
+[devtgz]: https://github.com/kaeza/kminser/archive/master.tar.gz
 [repo]: https://github.com/kaeza/lua-minser
-[apidocs]: https://kaeza.github.io/luadocs/minser/

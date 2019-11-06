@@ -1,6 +1,6 @@
 
 ---
--- Data serialization with minification.
+-- KMinSer - Data serialization with minification.
 --
 -- This module contains functions to serialize values to strings, and
 -- deserialize these strings back to values. It is able to serialize
@@ -56,11 +56,11 @@
 --
 -- [lualc]: https://www.lua.org/manual/5.3/manual.html#3.1
 --
--- @module minser
+-- @module kminser
 -- @author Diego Martínez <https://github.com/kaeza>
 -- @license MIT. See `LICENSE.md` for details.
 
-local minser = { }
+local kminser = { }
 
 -- Function defined below.
 local reprtable
@@ -176,13 +176,10 @@ end
 ---
 -- Serialize values.
 --
--- @tparam string|number|boolean|table ...
---  Values to serialize.
--- @treturn string
---  Serialized data on success, nil on error.
--- @treturn ?string
---  Error message.
-function minser.dump(...)
+-- @tparam string|number|boolean|table ... Values to serialize.
+-- @treturn string Serialized data on success, nil on error.
+-- @treturn ?string Error message.
+function kminser.dump(...)
 	local n, t = select("#", ...), { ... }
 	for i = 1, n do
 		local v, err = reprval(t[i], { })
@@ -205,24 +202,19 @@ end
 --  Serialized data on success, nil on error.
 -- @treturn ?string
 --  Error message.
-function minser.repr(val, seen)
+function kminser.repr(val, seen)
 	return reprval(val, seen or { })
 end
 
 ---
 -- Load serialized data.
 --
--- @tparam string data
---  Serialized data.
--- @tparam table env
---  Environment for loaded chunk.
--- @treturn number|nil
---  Number of returned values on success, nil on error.
--- @treturn any|string
---  First value on success, error message on error.
--- @treturn any
---  Extra values are returned as extra results.
-function minser.load(data, env)
+-- @tparam string data Serialized data.
+-- @tparam table env Environment for loaded chunk.
+-- @treturn number|nil Number of returned values on success, nil on error.
+-- @treturn any|string First value on success, error message on error.
+-- @treturn any Extra values are returned as extra results.
+function kminser.load(data, env)
 	local func, err = loadstring("return "..data)
 	if not func then
 		return nil, err
@@ -258,4 +250,4 @@ function minser.load(data, env)
 	return bail(pcall(func))
 end
 
-return minser
+return kminser

@@ -1,9 +1,9 @@
 
-package = "minser"
+package = "kminser"
 version = "scm-0"
 
 source = {
-   url = "http://github.com/kaeza/lua-minser/archive/master.tar.gz",
+   url = "git://github.com/kaeza/kminser",
 }
 
 description = {
@@ -14,7 +14,7 @@ description = {
 		deserialize these strings back to values. It is able to serialize
 		strings, numbers, booleans, nil values, and tables.
 	]],
-	homepage = "http://github.com/kaeza/lua-minser",
+	homepage = "http://github.com/kaeza/kminser",
 	license = "MIT",
 }
 
@@ -25,6 +25,6 @@ dependencies = {
 build = {
 	type = "builtin",
 	modules = {
-		["minser"] = "minser.lua",
+		["kminser"] = "kminser.lua",
 	},
 }
